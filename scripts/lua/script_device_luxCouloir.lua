@@ -34,6 +34,6 @@
 
 commandArray = {}
 if (devicechanged['Lumière Couloir'] == 'On') then
-	os.execute ('/home/pi/tools/radioEmission 0 8217031 0 pulse 50')
+	os.execute ('/home/pi/tools/radioEmission '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 0 pulse 50')
 end
 return commandArray

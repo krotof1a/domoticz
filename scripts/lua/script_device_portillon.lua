@@ -34,8 +34,8 @@
 
 commandArray = {}
 if (devicechanged['Portillon'] == 'On') then
-	os.execute ('/home/pi/tools/sendCS 0 1010101010')
+	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Portail_code'])
 	os.execute ("sleep 5")
-	os.execute ('/home/pi/tools/sendCS 0 1010101010')
+	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Portail_code'])
 end
 return commandArray
