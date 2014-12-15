@@ -34,9 +34,9 @@
 
 commandArray = {}
 if (devicechanged['Lumière Salon'] == 'On') then
-	os.execute ('/home/pi/tools/radioEmission '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 1 on')
+	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 1 on')
 end
 if (devicechanged['Lumière Salon'] == 'Off') then
-	os.execute ('/home/pi/tools/radioEmission '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 1 off')
+	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 1 off')
 end
 return commandArray

@@ -34,9 +34,9 @@
 
 commandArray = {}
 if (devicechanged['Etat Chaudiere'] == 'On') then
-	os.execute ('/home/pi/tools/radioEmission '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 2 on')
+	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 2 on')
 end
 if (devicechanged['Etat Chaudiere'] == 'Off') then
-	os.execute ('/home/pi/tools/radioEmission '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 2 off')
+	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 2 off')
 end
 return commandArray

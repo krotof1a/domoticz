@@ -34,6 +34,6 @@
 
 commandArray = {}
 if (devicechanged['Portail'] == 'On') then
-	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Portail_code'])
+	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' portal '..uservariables['Portail_code'])
 end
 return commandArray
