@@ -37,5 +37,6 @@ if (devicechanged['Portillon'] == 'On') then
 	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' portal '..uservariables['Portail_code'])
 	os.execute ("sleep 5")
 	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' portal '..uservariables['Portail_code'])
+	print('(Inter) Portillon actionne.')
 end
 return commandArray

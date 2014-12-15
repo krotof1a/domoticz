@@ -22,15 +22,15 @@ InPeriod=0
 if otherdevices[weekPlanningName] == 'On'
 then
    InPeriod=1
-   print('Planning chaudiere On')
+   print('(Thermostat) Planning chaudiere On')
 else
-   print('Planning chaudiere Off')
+   print('(Thermostat) Planning chaudiere Off')
 end
 
 if otherdevices[confMOnSwitchName] == 'On'
 then
    tempConsigne = temp2
-   print('ConfortMax On')
+   print('(Thermostat) ConfortMax On')
 else
    tempConsigne = temp1
 end 
@@ -39,20 +39,20 @@ if InPeriod == 1 then
    --print(otherdevices_temperature[tempSensorDayName]) 
    if otherdevices_temperature[tempSensorDayName] < (tempConsigne-hysteresis)
       then commandArray[radSwitchName]='On'
-          print('Jour chaudiere ON')
+          print('(Thermostat) Jour chaudiere ON')
    else if otherdevices_temperature[tempSensorDayName] > (tempConsigne+hysteresis)
 	  then commandArray[radSwitchName]='Off' 
-          print('Jour chaudiere OFF')
+          print('(Thermostat) Jour chaudiere OFF')
       end
    end
 else
    --print(otherdevices_temperature[tempSensorNightName]) 
    if otherdevices_temperature[tempSensorNightName] < (temp0-hysteresis)
       then commandArray[radSwitchName]='On' 
-      print('Nuit chaudiere ON')
+      print('(Thermostat) Nuit chaudiere ON')
    else if otherdevices_temperature[tempSensorNightName] > (temp0+hysteresis)
 	  then commandArray[radSwitchName]='Off' 
-      print('Nuit chaudiere OFF')
+      print('(Thermostat) Nuit chaudiere OFF')
       end
    end
 end
@@ -61,19 +61,19 @@ end
 
 if otherdevices[forceOnSwitchName] == 'On' 
    then commandArray[radSwitchName]='On' 
-      print('Marche forcee chaudiere')
+      print('(Thermostat) Marche forcee chaudiere')
 end
 
 if otherdevices[forceOffSwitchName] == 'On' 
    then commandArray[radSwitchName]='Off' 
-      print('Extinction forcee chaudiere')
+      print('(Thermostat) Extinction forcee chaudiere')
 end
 
 -- Ne pas declencher d'event si le switch est deja dans la bonne position
 if otherdevices[radSwitchName] == commandArray[radSwitchName]
    then
       commandArray={}
-      print('Nothing to do ...')
+      print('(Thermostat) Switch already set. Nothing to do ...')
 end
 
 return commandArray

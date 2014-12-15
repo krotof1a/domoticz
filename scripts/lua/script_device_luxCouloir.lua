@@ -35,5 +35,6 @@
 commandArray = {}
 if (devicechanged['Lumière Couloir'] == 'On') then
 	os.execute ('/home/pi/tools/sendCS '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' 0 pulse 50')
+	print('(Inter) Couloir actionne.')
 end
 return commandArray
