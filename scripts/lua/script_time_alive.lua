@@ -12,10 +12,14 @@ difference = (os.difftime (t1, t2))
 
 commandArray = {}
 
-if (difference > 120) then
+if (difference > 660) then
 	commandArray['SendNotification']='Alerte coupure de courant#Le courant a été coupé à '..s..' et vient de revenir.'
 end 
 
-commandArray['Variable:StillAlive']='1'
+time = os.date("*t")
+if((time.min % 10)==0)then
+	-- Only update time every 10 mn
+	commandArray['Variable:StillAlive']='1'
+end
 
 return commandArray
