@@ -19,7 +19,7 @@ end
 time = os.date("*t")
 if((time.min % 10)==0)then
 	-- Only update time every 10 mn
-	commandArray['ToujoursVivant']='1'
+	commandArray['Variable:ToujoursVivant']='1'
 end
 
 return commandArray
