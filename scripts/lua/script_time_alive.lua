@@ -1,6 +1,6 @@
 
 t1 = os.time()
-s = uservariables_lastupdate['StillAlive']
+s = uservariables_lastupdate['ToujoursVivant']
 year = string.sub(s, 1, 4)
 month = string.sub(s, 6, 7)
 day = string.sub(s, 9, 10)
@@ -19,7 +19,7 @@ end
 time = os.date("*t")
 if((time.min % 10)==0)then
 	-- Only update time every 10 mn
-	commandArray['Variable:StillAlive']='1'
+	commandArray['ToujoursVivant']='1'
 end
 
 return commandArray
