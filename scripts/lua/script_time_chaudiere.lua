@@ -7,6 +7,7 @@ commandArray = {}
 temp0 = uservariables['Thermostat_temp_nuit']
 temp1 = uservariables['Thermostat_temp_jour']
 temp2 = temp1 + uservariables['Thermostat_temp_confplus']
+temp3 = uservariables['Thermostat_temp_absence']
 hysteresis = uservariables['Thermostat_temp_hysteresis']
 tempSensorDayName='Temp Salon'
 tempSensorNightName='Temp Chambres'
