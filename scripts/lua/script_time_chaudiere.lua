@@ -13,8 +13,8 @@ tempSensorDayName='Temp Salon'
 tempSensorNightName='Temp Chambres'
 radSwitchName='Etat Chaudiere'
 confMOnSwitchName='Confort Plus Chaudiere'
-forceOnSwitchName='Marche Forcee Chaudiere'
-forceOffSwitchName='Extinction Forcee Chaudiere'
+forceOnSwitchName='Marche Forcee Chaudiere 2h'
+forceOffSwitchName='Extinction Forcee Chaudiere 2h'
 weekPlanningName='Planning Chaudiere'
 
 ------------------------------------------------------------------------------------
