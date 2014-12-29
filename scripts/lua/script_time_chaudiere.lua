@@ -15,6 +15,7 @@ radSwitchName='Etat Chaudiere'
 confMOnSwitchName='Confort Plus Chaudiere'
 forceOnSwitchName='Marche Forcee Chaudiere 2h'
 forceOffSwitchName='Extinction Forcee Chaudiere 2h'
+absentSwitchName='Absence Chaudiere'
 weekPlanningName='Planning Chaudiere'
 
 ------------------------------------------------------------------------------------
@@ -22,40 +23,51 @@ weekPlanningName='Planning Chaudiere'
 InPeriod=0
 if otherdevices[weekPlanningName] == 'On'
 then
-   InPeriod=1
-   print('(Thermostat) Planning chaudiere On')
-else
-   print('(Thermostat) Planning chaudiere Off')
+	InPeriod=1
+	print('(Thermostat) Planning chaudiere On')
 end
 
 if otherdevices[confMOnSwitchName] == 'On'
 then
-   tempConsigne = temp2
-   print('(Thermostat) ConfortMax On')
-else
-   tempConsigne = temp1
+   	tempConsigne = temp2
+   	print('(Thermostat) ConfortMax On')
+else 
+	if otherdevices[absentSwitchName] == 'On'
+	then
+   		InPeriod=1
+   		tempConsigne = temp3
+   		print('(Thermostat) Mode absence On')
+	else
+   		tempConsigne = temp1
+	end
 end 
 
 if InPeriod == 1 then 
-   --print(otherdevices_temperature[tempSensorDayName]) 
-   if otherdevices_temperature[tempSensorDayName] < (tempConsigne-hysteresis)
-      then commandArray[radSwitchName]='On'
-          print('(Thermostat) Jour chaudiere ON')
-   else if otherdevices_temperature[tempSensorDayName] > (tempConsigne+hysteresis)
-	  then commandArray[radSwitchName]='Off' 
-          print('(Thermostat) Jour chaudiere OFF')
-      end
-   end
+	--print(otherdevices_temperature[tempSensorDayName]) 
+   	if otherdevices_temperature[tempSensorDayName] < (tempConsigne-hysteresis)
+      	then 
+		commandArray[radSwitchName]='On'
+          	print('(Thermostat) Jour chaudiere ON')
+   	else 
+		if otherdevices_temperature[tempSensorDayName] > (tempConsigne+hysteresis)
+	  	then 
+			commandArray[radSwitchName]='Off' 
+        		print('(Thermostat) Jour chaudiere OFF')
+      		end
+   	end
 else
-   --print(otherdevices_temperature[tempSensorNightName]) 
-   if otherdevices_temperature[tempSensorNightName] < (temp0-hysteresis)
-      then commandArray[radSwitchName]='On' 
-      print('(Thermostat) Nuit chaudiere ON')
-   else if otherdevices_temperature[tempSensorNightName] > (temp0+hysteresis)
-	  then commandArray[radSwitchName]='Off' 
-      print('(Thermostat) Nuit chaudiere OFF')
-      end
-   end
+   	--print(otherdevices_temperature[tempSensorNightName]) 
+   	if otherdevices_temperature[tempSensorNightName] < (temp0-hysteresis)
+      	then 
+		commandArray[radSwitchName]='On' 
+      		print('(Thermostat) Nuit chaudiere ON')
+   	else 
+		if otherdevices_temperature[tempSensorNightName] > (temp0+hysteresis)
+	  	then 
+			commandArray[radSwitchName]='Off' 
+      			print('(Thermostat) Nuit chaudiere OFF')
+      		end
+   	end
 end
 
 -- marche forcee et fonction absence
