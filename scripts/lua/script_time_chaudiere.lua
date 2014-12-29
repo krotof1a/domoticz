@@ -4,89 +4,84 @@
 commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
+
 temp0 = uservariables['Thermostat_temp_nuit']
 temp1 = uservariables['Thermostat_temp_jour']
-temp2 = temp1 + uservariables['Thermostat_temp_confplus']
-temp3 = uservariables['Thermostat_temp_absence']
+temp2 = uservariables['Thermostat_temp_absence']
 hysteresis = uservariables['Thermostat_temp_hysteresis']
+
 tempSensorDayName='Temp Salon'
 tempSensorNightName='Temp Chambres'
+
 radSwitchName='Etat Chaudiere'
+
 confMOnSwitchName='Confort Plus Chaudiere'
-forceOnSwitchName='Marche Forcee Chaudiere 2h'
-forceOffSwitchName='Extinction Forcee Chaudiere 2h'
+forceOnSwitchName='Marche Forcee Chaudiere'
+forceOffSwitchName='Extinction Forcee Chaudiere'
 absentSwitchName='Absence Chaudiere'
 weekPlanningName='Planning Chaudiere'
+derogDaySwitchName='Derogation jour chaudiere'
+derogNightSwitchName='Derogation nuit chaudiere'
 
 ------------------------------------------------------------------------------------
---Main program
-InPeriod=0
-if otherdevices[weekPlanningName] == 'On'
-then
-	InPeriod=1
-	print('(Thermostat) Planning chaudiere On')
+-- Main program
+
+if (otherdevices[weekPlanningName] == 'On' or otherdevices[derogDaySwitchName] == 'On') and otherdevices[derogDaySwitchName] == 'Off' then
+   	tempConsigne = temp1
+	sensorName   = tempSensorDayName
+	print('(Thermostat) Mode Normal - Jour')
+	if otherdevices[weekPlanningName] == otherdevices[derogDaySwitchName] then
+		commandArray[derogDaySwitchName]='Off'
+		print('(Thermostat) Derogation Jour réinitialisée')
+	end
+else
+   	tempConsigne = temp0
+	sensorName   = tempSensorNightName
+   	print('(Thermostat) Mode Normal - Nuit')
+	if (not otherdevices[weekPlanningName] == otherdevices[derogNightSwitchName]) then
+		commandArray[derogNightSwitchName]='Off'
+		print('(Thermostat) Derogation Nuit réinitialisée')
+	end
 end
 
-if otherdevices[confMOnSwitchName] == 'On'
-then
+if otherdevices[absentSwitchName] == 'On' then
    	tempConsigne = temp2
-   	print('(Thermostat) ConfortMax On')
-else 
-	if otherdevices[absentSwitchName] == 'On'
-	then
-   		InPeriod=1
-   		tempConsigne = temp3
-   		print('(Thermostat) Mode absence On')
-	else
-   		tempConsigne = temp1
-	end
+   	print('(Thermostat) Surcharge mode Absence')
+end
+
+if otherdevices[confMOnSwitchName] == 'On' then
+   	tempConsigne = tempConsigne + uservariables['Thermostat_temp_confplus']
+   	print('(Thermostat) Mode ConfortMax')
 end 
 
-if InPeriod == 1 then 
-	--print(otherdevices_temperature[tempSensorDayName]) 
-   	if otherdevices_temperature[tempSensorDayName] < (tempConsigne-hysteresis)
-      	then 
-		commandArray[radSwitchName]='On'
-          	print('(Thermostat) Jour chaudiere ON')
-   	else 
-		if otherdevices_temperature[tempSensorDayName] > (tempConsigne+hysteresis)
-	  	then 
-			commandArray[radSwitchName]='Off' 
-        		print('(Thermostat) Jour chaudiere OFF')
-      		end
-   	end
-else
-   	--print(otherdevices_temperature[tempSensorNightName]) 
-   	if otherdevices_temperature[tempSensorNightName] < (temp0-hysteresis)
-      	then 
-		commandArray[radSwitchName]='On' 
-      		print('(Thermostat) Nuit chaudiere ON')
-   	else 
-		if otherdevices_temperature[tempSensorNightName] > (temp0+hysteresis)
-	  	then 
-			commandArray[radSwitchName]='Off' 
-      			print('(Thermostat) Nuit chaudiere OFF')
-      		end
-   	end
+if otherdevices_temperature[sensorName] < (tempConsigne-hysteresis) then 
+	commandArray[radSwitchName]='On'
+        print('(Thermostat) Chaudière sur On')
+else if otherdevices_temperature[sensorName] > (tempConsigne+hysteresis) then 
+	commandArray[radSwitchName]='Off' 
+        print('(Thermostat) Chaudière sur Off')
+     end
 end
 
--- marche forcee et fonction absence
+-------------------------------------------------------------------------------------
+-- marche forcee et extinction forcee
 
-if otherdevices[forceOnSwitchName] == 'On' 
-   then commandArray[radSwitchName]='On' 
-      print('(Thermostat) Marche forcee chaudiere')
+if otherdevices[forceOnSwitchName] == 'On' then 
+	commandArray[radSwitchName]='On' 
+      	print('(Thermostat) Surcharge marche forcee chaudiere')
 end
 
-if otherdevices[forceOffSwitchName] == 'On' 
-   then commandArray[radSwitchName]='Off' 
-      print('(Thermostat) Extinction forcee chaudiere')
+if otherdevices[forceOffSwitchName] == 'On' then 
+	commandArray[radSwitchName]='Off' 
+      	print('(Thermostat) Surcharge extinction forcee chaudiere')
 end
 
+------------------------------------------------------------------------------------
 -- Ne pas declencher d'event si le switch est deja dans la bonne position
-if otherdevices[radSwitchName] == commandArray[radSwitchName]
-   then
-      commandArray={}
-      print('(Thermostat) Switch already set. Nothing to do ...')
+
+if otherdevices[radSwitchName] == commandArray[radSwitchName] then
+      	commandArray={}
+      	print('(Thermostat) Commande chaudière déjà positionnée. Rien à faire ...')
 end
 
 return commandArray
