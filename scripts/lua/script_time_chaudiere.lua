@@ -20,28 +20,18 @@ forceOnSwitchName='Marche Forcee Chaudiere'
 forceOffSwitchName='Extinction Forcee Chaudiere'
 absentSwitchName='Absence Chaudiere'
 weekPlanningName='Planning Chaudiere'
-derogDaySwitchName='Derogation jour chaudiere'
-derogNightSwitchName='Derogation nuit chaudiere'
 
 ------------------------------------------------------------------------------------
 -- Main program
 
-if (otherdevices[weekPlanningName] == 'On' or otherdevices[derogDaySwitchName] == 'On') and otherdevices[derogDaySwitchName] == 'Off' then
+if otherdevices[weekPlanningName] == 'On' then
    	tempConsigne = temp1
 	sensorName   = tempSensorDayName
 	print('(Thermostat) Mode Normal - Jour')
-	if otherdevices[weekPlanningName] == otherdevices[derogDaySwitchName] then
-		commandArray[derogDaySwitchName]='Off'
-		print('(Thermostat) Derogation Jour réinitialisée')
-	end
 else
    	tempConsigne = temp0
 	sensorName   = tempSensorNightName
    	print('(Thermostat) Mode Normal - Nuit')
-	if (not otherdevices[weekPlanningName] == otherdevices[derogNightSwitchName]) then
-		commandArray[derogNightSwitchName]='Off'
-		print('(Thermostat) Derogation Nuit réinitialisée')
-	end
 end
 
 if otherdevices[absentSwitchName] == 'On' then
