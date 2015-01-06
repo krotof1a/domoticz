@@ -1,6 +1,6 @@
 
 t1 = os.time()
-s = uservariables_lastupdate['ToujoursVivant']
+s = otherdevices_lastupdate['Temp Chambres']
 year = string.sub(s, 1, 4)
 month = string.sub(s, 6, 7)
 day = string.sub(s, 9, 10)
@@ -12,14 +12,8 @@ difference = (os.difftime (t1, t2))
 
 commandArray = {}
 
-if (difference > 660) then
-	commandArray['SendNotification']='Alerte coupure de courant#Le courant a été coupé à '..s..' et vient de revenir.'
+if (difference > 120) then
+	commandArray['SendNotification']='Alerte coupure de courant#Le courant a été coupé à '..s..' .'
 end 
-
-time = os.date("*t")
-if((time.min % 10)==0)then
-	-- Only update time every 10 mn
-	commandArray['Variable:ToujoursVivant']='1'
-end
 
 return commandArray
