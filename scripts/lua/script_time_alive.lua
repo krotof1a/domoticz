@@ -12,7 +12,7 @@ difference = (os.difftime (t1, t2))
 
 commandArray = {}
 
-if (difference > 120) then
+if (difference > 120 and uservariables['Coupure_courant']==0) then
 	commandArray['Variable:Coupure_courant']='1'
 	commandArray['SendNotification']='Alerte coupure de courant#Le courant a été coupé à '..s..' .'
 else if (uservariables['Coupure_courant']==1) then
