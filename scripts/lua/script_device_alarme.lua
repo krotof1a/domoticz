@@ -1,9 +1,10 @@
 commandArray = {}
 if (devicechanged['Alarme'] == 'All On') then
-	print('(Alarme) Sonnerie')
-	os.execute('/home/pi/tools/speakCS.sh "Attention! Intrusion en cours!"&')
+	print('(Alarme) Sonnerie démarrée.')
+	os.execute('/home/pi/tools/alarme.sh &')
 end
 if (devicechanged['Alarme'] == 'All Off') then
-
+	print('(Alarme) Sonnerie arrêtée.')
+	os.execute('killall aplay')
 end
 return commandArray
