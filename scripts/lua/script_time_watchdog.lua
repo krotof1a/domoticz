@@ -1,7 +1,7 @@
 commandArray = {}
 
 if (tonumber(otherdevices_svalues['Pi CPU']) > 95) then
-        os.execute ('/home/pi/tools/killRadioReception.sh')
+        os.execute ('/home/osmc/tools/killRadioReception.sh')
 	print ('(Watchdog) Killed radioReception process  ...');
 end
 
