@@ -5,6 +5,6 @@ if (devicechanged['Alarme'] == 'All On') then
 end
 if (devicechanged['Alarme'] == 'All Off') then
 	print('(Alarme) Sonnerie arrêtée.')
-	os.execute('killall aplay')
+	os.execute('/home/osmc/tools/alarme.sh stop')
 end
 return commandArray

@@ -1,5 +1,4 @@
-sensorwu = 'Pression Atmosphérique' --sensor from wunderground
-local tempsensor = 'Temp Extérieur' --virtual temp sensor you created
+sensorwu = 'Station Meteo' --sensor from wunderground
 local idx = 13 --idx of your virtual temp sensor of wunderground
 commandArray = {}
 time = os.date("*t")
