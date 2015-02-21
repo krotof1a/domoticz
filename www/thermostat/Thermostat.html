@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="viewport" content="initial-scale=1.28" />
+	<title>Thermostat</title>
+	<!-- Thermostat CSS -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<!-- Thermostat JS lib -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="script.js"></script>
+	<!-- JQuery-week-calendar JS libs -->
+</head>
+<body background="img/background.jpg">
+	<div id="thermostat">
+		<div id="planC" style="hidden"></div>
+		<div id="confP" style="hidden"></div>
+		<div id="abseT" style="hidden"></div>
+		
+		<label style="left: 35px; top: 130px;">Temperatures :</label>
+		<label style="left: 236px; top: 29px;">Courante</label>
+		<label style="left: 389px; top: 29px;">Consigne</label>
+		<label style="left: 540px; top: 29px;">Sonde</label>
+		
+		<label id="tempS" style="font-size: 50px; left: 216px; top: 110px;">--.--</label>
+		<label id="tempC" style="font-size: 50px; left: 216px; top: 110px; visibility:hidden;">--.--</label>
+		<label style="left: 340px; top: 126px;">&deg;C</label>
+		<label id="consS" style="font-size: 50px; left: 380px; top: 110px;">--.--</label>
+		<label id="consC" style="font-size: 50px; left: 380px; top: 110px; visibility:hidden;">--.--</label>
+		<label id="consA" style="font-size: 50px; left: 380px; top: 110px; visibility:hidden;">--.--</label>
+		<label style="left: 480px; top: 126px;">&deg;C</label>
+		<img id="sonde1" src="img/Canape.png" style="top: 125px;"></img>
+		<img id="sonde2" src="img/Dodo.png" style="top: 125px; visibility:hidden;"></img>
+		
+		<label id="confL" style="left: 420px; top: 170px; visibility: hidden">+</label>
+		<label id="confT" style="left: 440px; top: 170px; visibility: hidden"></label>
+
+		<label style="left: 35px; top: 265px;">Mode :</label>
+		<button id="normal"  class="button selected" onclick="buttonSelection(this);" style="left: 170px;">Normal</button>
+		<button id="confort" class="button" onclick="buttonSelection(this);" style="left: 260px;">Confort</button>
+		<button id="jour"    class="button selected" onclick="buttonSelection(this);" style="left: 350px;">Jour</button>
+		<button id="nuit"    class="button" onclick="buttonSelection(this);" style="left: 440px;">Nuit</button>
+		<button id="absent"  class="button" onclick="buttonSelection(this);" style="left: 530px;">Absent</button>
+	</div>
+	<div id="planning" style="visibility:hidden;"></div>
+	<div id="security" style="visibility:hidden;"></div>
+	<div id="navigation">
+		<label style="left: 5.5px; top: 7px;">Acces :</label>
+		<a href="#" onclick="displayThermostat();return false;" style="position: absolute; left: 20px; top: 80px;">
+			<img src="img/Home.svg" style="width: 35px; height: 35px;"></img>
+		</a>
+		<a href="#" onclick="displaySecurity();return false;"   style="position: absolute; left: 20px; top: 295px;">
+			<img src="img/Lock.svg" style="height: 35px; width: 35px;"></img>
+		</a>
+	</div>
+</body>
+</html>

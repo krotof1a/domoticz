@@ -1,0 +1,50 @@
+div#thermostat, div#planning, div#security {
+	border: 2px solid white; 
+	position: absolute; 
+	z-index: 900; 
+	width:  635px; 
+	height: 410px; 
+	left: 35px; 
+	top:  35px;
+}
+
+div#navigation {
+	border: 2px solid white; 
+	position: absolute; 
+	z-index: 900; 
+	width: 75px; 
+	height: 410px; 
+	left: 690px; 
+	top: 35px;
+	background-color: gray;
+}
+
+button {
+	position: absolute; 
+	z-index: 900; 
+	height: 45px; 
+	width: 60px; 
+	top: 257px;
+}
+
+.selected {
+	border: 1px solid #3385FF;
+	background-color: #8F8FB2;
+}
+
+label {
+	position: absolute; 
+	z-index: 900; 
+	font-family: serif; 
+	font-size: 20px; 
+	font-weight: bold;
+	color: white;
+}
+
+img#sonde1, img#sonde2 {
+	position: absolute; 
+	z-index: 900; 
+	width: 35px; 
+	height: 25px; 
+	left: 550px;
+}
