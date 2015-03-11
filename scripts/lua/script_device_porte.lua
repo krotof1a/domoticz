@@ -14,11 +14,4 @@ if (devicechanged['Porte Entrée'] == 'Open' and timeofday['Nighttime']) then
 	end
 end
 
--- Handle alarm
-if ((devicechanged['Porte Entrée'] == 'Open' or devicechanged['Porte Cuisine'] == 'Open')
-    and globalvariables['Security'] == 'Armed Away') then
-	print('(Porte) Ouverture porte en mode securisé')
-	os.execute('/home/osmc/tools/alarme.sh start &')
-end
-
 return commandArray
