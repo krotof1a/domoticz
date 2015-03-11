@@ -3,7 +3,7 @@ commandArray = {}
 if (devicechanged['Sécurité'] == 'On') then
 	print('(Security) Passage de Désarmé à Armé.')
 	os.execute('/home/osmc/tools/alarme.sh init '..uservariables['SecPanel_pincode']..' &');
-else if (devicechanged['Sécurité'] == 'On') then
+else if (devicechanged['Sécurité'] == 'Off') then
 	print('(Security) Passage de Armé à Désarmé.')
 	os.execute('/home/osmc/tools/alarme.sh finish '..uservariables['SecPanel_pincode']..' &');
 end
