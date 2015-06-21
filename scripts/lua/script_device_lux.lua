@@ -22,4 +22,14 @@ if (devicechanged['Lumière Salon'] == 'Off') then
 	print('(Inter) Salon eteint.')
 end
 
+-- Handle Leaving room light actions and triggers
+if (devicechanged['Lumière Salle-à-manger'] == 'On') then
+	os.execute ('/home/osmc/tools/sendCS.sh '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' b1 on &')
+	print('(Inter) Salle-à-manger allumé.')
+end
+if (devicechanged['Lumière Salle-à-manger'] == 'Off') then
+	os.execute ('/home/osmc/tools/sendCS.sh '..uservariables['Emetteur_pin']..' '..uservariables['Emetteur_code']..' b1 off &')
+	print('(Inter) Salle-à-manger eteint.')
+end
+
 return commandArray
