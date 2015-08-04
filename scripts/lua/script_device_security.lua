@@ -14,6 +14,7 @@ if ((devicechanged['Porte Entrée'] == 'Open' or devicechanged['Porte Cuisine'] 
     and globalvariables['Security'] == 'Armed Away') then
 	print('(Security) Ouverture acces en mode securisé')
 	os.execute('/home/osmc/tools/alarme.sh start &')
+	commandArray['SendNotification']='Intrusion détectée !'
 end
 
 return commandArray
