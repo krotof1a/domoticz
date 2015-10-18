@@ -148,13 +148,6 @@ function RefreshData() {
 			}
 			processJSONData(data,$.PageArray1);
 		});
-	// Get Domoticz user variables	
-	var jurl2=$.domoticzurl+"/json.htm?type=command&param=getuservariables&jsoncallback=?";
-	$.getJSON(jurl2,
-		{format: "json"},
-		function(data) {
-			processJSONData(data,$.PageArray2);
-		});
 	// Hide div that should stay invisible
 	$("#planC").css("visibility", "hidden");
 	$("#confP").css("visibility", "hidden");
@@ -179,7 +172,7 @@ function RefreshData() {
 
 $(document).ready(function() {
 	$.LastUpdateTime=parseInt(0);
-	$.domoticzurl="http://192.168.0.22:5665";
+	$.domoticzurl="http://192.168.0.17:5665";
 	$.sceneNormal=1;
 	$.sceneConfor=2;
 	$.sceneDerogJ=4;
@@ -188,17 +181,15 @@ $(document).ready(function() {
 	$.roomplan=7;
 	//format: idx, value, label, comment
 	$.PageArray1 = [
-		['6', 'Temp','tempS','temperature salon'],
+		['61','Temp','tempS','temperature salon'],
 		['16','Temp','tempC','temperature chambre'],
 		['25','Status','planC','planning chaudiere'],
 		['21','Status','confP','confortPlus  inter'],
 		['31','Status','abseT','absence      inter'],
-	];
-	$.PageArray2 = [
-		['4', 'Value','consS','consigne salon'],
-		['5', 'Value','consC','consigne chambre'],
-		['11','Value','consA','consigne absent'],
-		['7', 'Value','confT','consigne confort'],
+		['57','SetPoint','consS','consigne salon'],
+		['58','SetPoint','consC','consigne chambre'],
+		['59','SetPoint','consA','consigne absent'],
+		['68','SetPoint','confT','consigne confort'],
 	];
 	RefreshData();
 	refreshTimer = setInterval(function(){RefreshData();}, refreshTimerDelay);
