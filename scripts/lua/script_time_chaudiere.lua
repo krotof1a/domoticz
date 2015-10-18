@@ -5,21 +5,26 @@ commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
 
-temp0 = uservariables['Thermostat_temp_nuit']
-temp1 = uservariables['Thermostat_temp_jour']
-temp2 = uservariables['Thermostat_temp_absence']
-hysteresis = uservariables['Thermostat_temp_hysteresis']
-
 tempSensorDayName='Temp Salon'
 tempSensorNightName='Temp Chambres'
-
 radSwitchName='Etat Chaudiere'
-
 confMOnSwitchName='Confort Plus Chaudiere'
 forceOnSwitchName='Marche Forcee Chaudiere'
 forceOffSwitchName='Extinction Forcee Chaudiere'
 absentSwitchName='Absence Chaudiere'
 weekPlanningName='Planning Chaudiere'
+
+consigneNuitName='Consigne thermostat nuit'
+temp0 = otherdevices_temperature[consigneNuitName]
+consigneJourName='Consigne thermostat jour'
+temp1 = otherdevices_temperature[consigneJourName]
+consigneAbsName='Consigne thermostat absence'
+temp2 = otherdevices_temperature[consigneAbsName]
+consigneHystName='Consigne hysteresis'
+hysteresis = otherdevices_temperature[consigneHystName]
+consigneConfName='Consigne confort plus'
+confortplus = otherdevices_temperature[consigneConfName]
+print('(Thermostat) Consignes - J:'..temp1..', N:'..temp0..', A:'..temp2..' - C+:'..confortplus..' - Hyst:'..hysteresis)
 
 ------------------------------------------------------------------------------------
 -- Main program
@@ -40,7 +45,7 @@ if otherdevices[absentSwitchName] == 'On' then
 end
 
 if otherdevices[confMOnSwitchName] == 'On' then
-   	tempConsigne = tempConsigne + uservariables['Thermostat_temp_confplus']
+   	tempConsigne = tempConsigne + confortplus
    	print('(Thermostat) Mode ConfortMax')
 end 
 

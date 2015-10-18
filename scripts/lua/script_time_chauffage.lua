@@ -5,7 +5,8 @@ commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
 
-temp0 = uservariables['Thermostat_temp_abrit-piscine']
+consigneNuitName='Consigne thermostat abrit-piscine'
+temp0 = otherdevices_temperature[consigneNuitName]
 tempSensorName='Temp Extérieur'
 radSwitchName='Chauffage Abrit-piscine'
 s = os.date()
