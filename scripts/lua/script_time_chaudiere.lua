@@ -5,7 +5,8 @@ commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
 
-tempSensorDayName='Temp Salon'
+--tempSensorDayName='Temp Salon'
+tempSensorDayName='Temp Salle-à-manger'
 tempSensorNightName='Temp Chambres'
 radSwitchName='Etat Chaudiere'
 confMOnSwitchName='Confort Plus Chaudiere'
