@@ -7,8 +7,8 @@ commandArray = {}
 
 --tempSensorDayName='Temp Salon'
 tempSensorDayName='Temp Salle-à-manger'
-tempSensorNightName='Temp Chambres'
-radSwitchName='Etat Chaudiere'
+tempSensorNightName='Temp Chambre Matthieu'
+radSwitchName='Chaudière'
 confMOnSwitchName='Confort Plus Chaudiere'
 forceOnSwitchName='Marche Forcee Chaudiere'
 forceOffSwitchName='Extinction Forcee Chaudiere'
@@ -16,15 +16,15 @@ absentSwitchName='Absence Chaudiere'
 weekPlanningName='Planning Chaudiere'
 
 consigneNuitName='Consigne thermostat nuit'
-temp0 = otherdevices_temperature[consigneNuitName]
+temp0 = otherdevices_svalues[consigneNuitName] or 0
 consigneJourName='Consigne thermostat jour'
-temp1 = otherdevices_temperature[consigneJourName]
+temp1 = otherdevices_svalues[consigneJourName] or 0
 consigneAbsName='Consigne thermostat absence'
-temp2 = otherdevices_temperature[consigneAbsName]
+temp2 = otherdevices_svalues[consigneAbsName] or 0
 consigneHystName='Consigne hysteresis'
-hysteresis = otherdevices_temperature[consigneHystName]
+hysteresis = otherdevices_svalues[consigneHystName] or 0
 consigneConfName='Consigne confort plus'
-confortplus = otherdevices_temperature[consigneConfName]
+confortplus = otherdevices_svalues[consigneConfName] or 0
 print('(Thermostat) Consignes - J:'..temp1..', N:'..temp0..', A:'..temp2..' - C+:'..confortplus..' - Hyst:'..hysteresis)
 
 ------------------------------------------------------------------------------------

@@ -5,18 +5,19 @@ commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
 
-consigneNuitName='Consigne thermostat abrit-piscine'
-temp0 = otherdevices_temperature[consigneNuitName]
+consigneAPName='Consigne thermostat abrit-piscine'
+temp0 = otherdevices_svalues[consigneAPName]
 tempSensorName='Temp Extérieur'
-radSwitchName='Chauffage Abrit-piscine'
+radSwitchName='Abrit Piscine'
 s = os.date()
 minutes = string.sub(s, 15, 16)
+print('(Thermostat2) Consigne - E:'..temp0)
 
 ------------------------------------------------------------------------------------
 -- Main program
 -- Allumage toutess les heures si gel
 
-if (minutes=='15' and otherdevices_temperature[tempSensorName] < temp0) then 
+if (minutes=='15' and otherdevices_svalues[tempSensorName] < temp0) then 
 	commandArray[radSwitchName]='On'
         print('(Thermostat2) Chauffage sur On')
 end
