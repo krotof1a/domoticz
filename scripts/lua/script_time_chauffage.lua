@@ -6,7 +6,7 @@ commandArray = {}
 -- Definition des constantes
 
 consigneAPName='Thermostat Abrit-piscine'
-temp0 = otherdevices_svalues[consigneAPName]
+temp0 = otherdevices_svalues[consigneAPName] + 0
 tempSensorName='Temp Extérieur'
 radSwitchName='Abrit Piscine'
 s = os.date()
@@ -18,7 +18,7 @@ minutes = string.sub(s, 15, 16)
 
 if (minutes=='15') then
 	print('(Thermostat2) Consigne lue - E:'..temp0)
-	if (otherdevices_svalues[tempSensorName] < temp0) then 
+	if (otherdevices_temperature[tempSensorName] < temp0) then 
 		commandArray[radSwitchName]='On'
         	print('(Thermostat2) Chauffage sur On')
 	else
