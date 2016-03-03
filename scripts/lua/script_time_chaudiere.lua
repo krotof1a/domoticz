@@ -6,21 +6,26 @@ commandArray = {}
 -- Definition des constantes
 
 s = os.date()
-minutes = string.sub(s, 16, 16)
+minute = string.sub(s, 16, 16)
+minutes = string.sub(s, 15, 16)
 heures  = string.sub(s, 12, 13)
 t = heures*100+minutes
 
 tempC = otherdevices_svalues['Thermostat Maison'] or 0
-tempSensorDayName='Temp Salle-à-manger'
 tempS = otherdevices_temperature['Temp Salle-à-manger'] or 0
-tempSensorNightName='Temp Chambre Matthieu'
 tempN = otherdevices_temperature['Temp Chambre Matthieu'] or 0
+
+function round(num, idp)
+  local mult = 10^(idp or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 if (t>700 and t<2100) then
 	-- Entre 7h et 21h : prépondérance sonde salle-à-manger
-	tempX = (2*tempS + tempN)/3
+	tempX = round((2*tempS + tempN)/3, 2)
 else
 	-- De nuit, prépondérance sonde chambre
-	tempX = (tempS + 2*tempN)/3
+	tempX = round((tempS + 2*tempN)/3, 2)
 end
 
 radSwitchName='Chaudière'
@@ -33,7 +38,7 @@ hysteresis = uservariables['Hysteresis'] or 0
 confortplus = uservariables['ConfortPlus'] or 0
 temp2 = uservariables['TempAbsence'] or 0
 
-if (minutes=='0' or minutes=='5') then
+if (minute=='0' or minute=='5') then
 
 ------------------------------------------------------------------------------------
 -- Main program
@@ -47,7 +52,7 @@ if otherdevices[confMOnSwitchName] == 'On' then
    	print('(Thermostat) Mode ConfortMax')
 end 
 
-print('(Thermostat) Consigne : '..tempC..', Temp calculée : '..tempX)
+print('(Thermostat) Consigne : '..tempC..', Hysteresis : '..hysteresis..', Temp calculée : '..tempX)
 
 if tempX < (tempC-hysteresis) then 
 	commandArray[radSwitchName]='On'
@@ -82,3 +87,4 @@ end
 end
 
 return commandArray
+
