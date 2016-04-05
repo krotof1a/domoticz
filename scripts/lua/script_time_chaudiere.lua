@@ -89,7 +89,7 @@ end
 -------------------------------------------------------------------------------
 -- Reset Activateur si besoin
 if (actnow=='On') then
-	commandArray['Variable:ActNow'] = 'Off'
+	commandArray['Variable:ActNow']='Off'
 end
 
 end
