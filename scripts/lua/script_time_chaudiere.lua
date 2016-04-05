@@ -13,7 +13,7 @@ t = heures*100+minutes
 
 tempC = otherdevices_svalues['Thermostat Maison'] or 0
 tempS = otherdevices_temperature['Temp Salle-à-manger'] or 0
-tempN = otherdevices_temperature['Temp Chambre Matthieu'] or 0
+tempN = otherdevices_temperature['Temp Chambre Clément'] or 0
 
 function round(num, idp)
   local mult = 10^(idp or 0)

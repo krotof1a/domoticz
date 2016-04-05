@@ -7,7 +7,7 @@ commandArray = {}
 
 consigneAPName='Thermostat Abrit-piscine'
 temp0 = otherdevices_svalues[consigneAPName] + 0
-tempSensorName='Temp Extérieur'
+tempSensorName='Station Meteo'
 radSwitchName='Abrit Piscine'
 s = os.date()
 minutes = string.sub(s, 15, 16)
