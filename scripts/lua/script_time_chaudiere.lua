@@ -37,11 +37,18 @@ absentSwitchName='Absence Chaudiere'
 hysteresis = uservariables['Hysteresis'] or 0
 confortplus = uservariables['ConfortPlus'] or 0
 temp2 = uservariables['TempAbsence'] or 0
-
-if (minute=='0' or minute=='5') then
+actnow = uservariables['ActNow'] or 'Off'
 
 ------------------------------------------------------------------------------------
 -- Main program
+
+if (minute=='0' or minute=='5' or actnow=='On') then
+
+if (actnow=='On') then
+	print('(Thermostat) Activateur demandé')
+	commandArray['Variable:ActNow'] = 'Off'
+end
+
 if otherdevices[absentSwitchName] == 'On' then
    	tempC = temp2
    	print('(Thermostat) Surcharge mode Absence')
@@ -79,7 +86,7 @@ end
 ------------------------------------------------------------------------------------
 -- Ne pas declencher d'event si le switch est deja dans la bonne position
 
-if otherdevices[radSwitchName] == commandArray[radSwitchName] then
+if (otherdevices[radSwitchName] == commandArray[radSwitchName] and actnow == 'Off' ) then
       	commandArray={}
       	print('(Thermostat) Commande chaudière déjà positionnée. Rien à faire ...')
 end

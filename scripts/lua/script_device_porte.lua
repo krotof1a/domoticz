@@ -10,7 +10,7 @@ if (devicechanged['Porte Entrée'] == 'Open' and timeofday['Nighttime']) then
 	t2 = hh*100+mm
 	if (t2 > heureMin and t2 < heureMax) then
 		print('(Porte d entrée) Ouverture détectée de nuit.')
-		commandArray['Lumière Couloir']='On'
+		commandArray['Eclairage Couloir']='On'
 	end
 end
 
