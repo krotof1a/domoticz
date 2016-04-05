@@ -1,6 +1,6 @@
 commandArray = {}
 
--- Handle Corridor light
+-- Handle thermostat change quickly
 if (devicechanged['Thermostat Maison'] or
     devicechanged['Confort Plus Chaudiere'] or
     devicechanged['Absence Chaudiere'] or
