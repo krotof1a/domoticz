@@ -34,7 +34,8 @@ end
 ------------------------------------------------------------------------------------
 -- Ne pas declencher d'event si le switch est deja dans la bonne position
 
-if otherdevices[radSwitchName] == commandArray[radSwitchName] then
+if ((minutes=='15' or minutes=='25') and 
+    (otherdevices[radSwitchName] == commandArray[radSwitchName])) then
       	commandArray={}
       	print('(Thermostat2) Commande chauffage déjà positionnée. Rien à faire ...')
 end
