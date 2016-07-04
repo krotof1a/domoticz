@@ -14,6 +14,7 @@ t = heures*100+minutes
 tempC = otherdevices_svalues['Thermostat Maison'] or 0
 tempS = otherdevices_temperature['Temp Salle-à-manger'] or 0
 tempN = otherdevices_temperature['Temp Chambre Clément'] or 0
+tempM = otherdevices_temperature['Temp Chambre Matthieu'] or 0
 
 function round(num, idp)
   local mult = 10^(idp or 0)
@@ -22,10 +23,10 @@ end
 
 if (t>700 and t<2100) then
 	-- Entre 7h et 21h : prépondérance sonde salle-à-manger
-	tempX = round((2*tempS + tempN)/3, 2)
+	tempX = round((4*tempS + tempN + tempM)/6, 2)
 else
 	-- De nuit, prépondérance sonde chambre
-	tempX = round((tempS + 2*tempN)/3, 2)
+	tempX = round((2*tempS + 2*tempN + 2*tempM)/6, 2)
 end
 
 radSwitchName='Chaudière'
