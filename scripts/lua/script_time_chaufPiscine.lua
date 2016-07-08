@@ -19,7 +19,9 @@ minute = string.sub(s, 16, 16)
 ------------------------------------------------------------------------------------
 -- Main program
 
-if ((minute=='1' or minute=='6') and otherdevices[chaufSwitchName] == 'On') then
+if (minute=='1' or minute=='6') then
+
+   if (otherdevices[chaufSwitchName] == 'On') then
 
 	commandArray[pompChaufSwitchName]='On'
 	
@@ -40,7 +42,20 @@ if ((minute=='1' or minute=='6') and otherdevices[chaufSwitchName] == 'On') then
 	end
 	end
 	
-	return commandArray
+   else if (otherdevices[chaufSwitchName] == 'Off') then
+
+        commandArray[pompChaufSwitchName]='Off'
+
+        if (otherdevices[pompChaufSwitchName] == commandArray[pompChaufSwitchName]) then
+        	commandArray={}
+        else if (commandArray[pompChaufSwitchName] == 'Off') then
+                print('(ChaufPiscine) Pompe chauffage piscine arrêtée.')
+        end
+        end
+
+   end
+   end
+
+   return commandArray
 
 end
-
