@@ -9,6 +9,7 @@ chaufSwitchName='Chauffage Piscine'
 pompChaufSwitchName='Pompe Chauffage Piscine'
 tempJ = tonumber(otherdevices_temperature['Temp Jardin'] or 0)
 tempC = tonumber(otherdevices_svalues['Thermostat Air Chauffage Piscine'] or 0)
+tempE = tonumber(otherdevices_svalues['Thermostat Eau Chauffage Piscine'] or 0)
 --uvCap = tonumber(string.match(otherdevices_svalues['UV'],'([^;]+)') or 0)
 --uvCon = tonumber(otherdevices_svalues['Thermostat UV Chauffage Piscine'] or 0)
 
