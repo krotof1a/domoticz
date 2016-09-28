@@ -11,6 +11,8 @@ import time;
 import os;
 import urllib2 
 import json
+from socket import *
+import thread
 
 SERVER= sys.argv[1];
 EMAIL_ACCOUNT = sys.argv[2];
@@ -18,19 +20,8 @@ EMAIL_PASS = sys.argv[3];
 DOMO_HOST = "192.168.1.17"
 DOMO_PORT = "5665"
 interval=10;
-
-# Test that script is not already running
-pidfile = sys.argv[0] + '_' + sys.argv[1] + '.pid'
-if os.path.isfile( pidfile ):
-    print "Pid file exists"
-    if (time.time() - os.path.getmtime(pidfile)) < (float(interval) * 3):
-      print "Script seems to be still running, exiting"
-      print "If this is not correct, please delete file " + pidfile
-      sys.exit(0)
-    else:
-      print "Seems to be an old file, ignoring."
-else:
-    open(pidfile, 'w').close()
+HTTPD_HOST = "127.0.0.1"
+HTTPD_PORT = 4567 
 
 # Usefull functions
 def domoticzStatus (switchid):
@@ -89,12 +80,26 @@ def handleMessage(msgFrom, msgSubj, msgText):
 		else :
 			return 0
 
-def process_mailbox(M):
-    """
-    Do something with emails messages in the folder.  
-    For the sake of this example, print some headers.
-    """
+def runHttpServer():
+  ADDR = (HTTPD_HOST, HTTPD_PORT)
+  serversock = socket(AF_INET, SOCK_STREAM)
+  serversock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+  serversock.bind(ADDR)
+  serversock.listen(5)
+  while 1:
+	print 'Waiting for connection...'
+        clientsock, addr = serversock.accept()
+        print '...connected from:', addr
+	data = clientsock.recv(2048)
+        if not data: break
+	else:
+		gen_response="HTTP/1.1 200 OK\n"
+        	clientsock.send(gen_response)
+	        clientsock.close()
+		string = bytes.decode(data)
+		handleMessage("Shyrka@", urllib.unquote(string.split(' ')[1].split('=')[1]), "")
 
+def process_mailbox(M):
     rv, data = M.search(None, "ALL")
     if rv != 'OK':
         print("No messages found!")
@@ -120,24 +125,43 @@ def process_mailbox(M):
 	if (handleMessage(msg_from, msg_subj, msg_text)==1):
 		M.store(num, '+FLAGS', '\\Deleted');
 
-M = imaplib.IMAP4(SERVER);
-try:
-    rv, data = M.login(EMAIL_ACCOUNT, EMAIL_PASS)
-except imaplib.IMAP4.error:
-    print ("LOGIN FAILED!!! ")
-    sys.exit(1)
+if __name__=='__main__':
 
-while (1==1):
-	rv, data = M.select("INBOX")
-	if rv == 'OK':
-    		print("Processing inbox...\n")
-    		process_mailbox(M)
-    		M.expunge();
-    		M.close()
+	# Test that script is not already running
+	pidfile = sys.argv[0] + '_' + sys.argv[1] + '.pid'
+	if os.path.isfile( pidfile ):
+    		print "Pid file exists"
+    		if (time.time() - os.path.getmtime(pidfile)) < (float(interval) * 3):
+      			print "Script seems to be still running, exiting"
+      			print "If this is not correct, please delete file " + pidfile
+      			sys.exit(0)
+    		else:
+      			print "Seems to be an old file, ignoring."
 	else:
-    		print("ERROR: Unable to open mailbox ", rv)
+    		open(pidfile, 'w').close()
 
-	open(pidfile, 'w').close();
-	time.sleep(interval);
+	# Run notif server for Domoticz
+	thread.start_new_thread(runHttpServer, ())
 
-M.logout()
+	# Run Imap client continuously
+	M = imaplib.IMAP4(SERVER);
+	try:
+    		rv, data = M.login(EMAIL_ACCOUNT, EMAIL_PASS)
+	except imaplib.IMAP4.error:
+    		print ("LOGIN FAILED!!! ")
+    		sys.exit(1)
+
+	while (1==1):
+		rv, data = M.select("INBOX")
+		if rv == 'OK':
+    			print("Processing inbox...\n")
+    			process_mailbox(M)
+    			M.expunge();
+    			M.close()
+		else:
+    			print("ERROR: Unable to open mailbox ", rv)
+
+		open(pidfile, 'w').close();
+		time.sleep(interval);
+
+	M.logout()
