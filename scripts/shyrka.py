@@ -65,7 +65,8 @@ def handleMessage(msgFrom, msgSubj, msgText):
 		dest=msgText.split(" ")[2];
 		# Check dest is at home
 		if (("Christophe" in dest and domoticzStatus("392")) or
-                    ("Cécile" in dest and domoticzStatus("393"))) :
+                    ("Cécile" in dest and domoticzStatus("393")) or
+		    ("Matthieu" in dest or "Clément" in dest)) :
 			domoticzTalkMessage(orig, dest, " ".join(msgText.split(" ")[4:]))
     			return 1
 		else :
@@ -127,25 +128,7 @@ def process_mailbox(M):
 	if (handleMessage(msg_from, msg_subj, msg_text)==1):
 		M.store(num, '+FLAGS', '\\Deleted');
 
-if __name__=='__main__':
-
-	# Test that script is not already running
-	pidfile = sys.argv[0] + '_' + sys.argv[1] + '.pid'
-	if os.path.isfile( pidfile ):
-    		print "Pid file exists"
-    		if (time.time() - os.path.getmtime(pidfile)) < (float(interval) * 3):
-      			print "Script seems to be still running, exiting"
-      			print "If this is not correct, please delete file " + pidfile
-      			sys.exit(0)
-    		else:
-      			print "Seems to be an old file, ignoring."
-	else:
-    		open(pidfile, 'w').close()
-
-	# Run notif server for Domoticz
-	thread.start_new_thread(runHttpServer, ())
-
-	# Run Imap client continuously
+def runImapClient():
 	M = imaplib.IMAP4(SERVER);
 	try:
     		rv, data = M.login(EMAIL_ACCOUNT, EMAIL_PASS)
@@ -167,3 +150,28 @@ if __name__=='__main__':
 		time.sleep(interval);
 
 	M.logout()
+
+if __name__=='__main__':
+
+	# Test that script is not already running
+	pidfile = sys.argv[0] + '_' + sys.argv[1] + '.pid'
+	if os.path.isfile( pidfile ):
+    		print "Pid file exists"
+    		if (time.time() - os.path.getmtime(pidfile)) < (float(interval) * 3):
+      			print "Script seems to be still running, exiting"
+      			print "If this is not correct, please delete file " + pidfile
+      			sys.exit(0)
+    		else:
+      			print "Seems to be an old file, ignoring."
+	else:
+    		open(pidfile, 'w').close()
+
+	# Run notif server for Domoticz
+	t1=thread.start_new_thread(runHttpServer, ())
+
+	# Run Imap client continuously
+	t2=thread.start_new_thread(runImapClient, ())
+	
+	# Cause main prog to wait for threads
+	while True:
+		time.sleep(interval)
