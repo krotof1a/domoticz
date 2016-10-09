@@ -13,6 +13,7 @@ import urllib2
 import json
 from socket import *
 import thread
+import mic
 
 SERVER= sys.argv[1];
 EMAIL_ACCOUNT = sys.argv[2];
@@ -50,7 +51,7 @@ def domoticzTalkMessage(msgFrom, msgTo, msgText):
     	msgSend = urllib.quote(msgFull);
     urllib.urlopen("http://"+DOMO_HOST+":"+DOMO_PORT+"/json.htm?type=command&param=udevice&idx=179&nvalue=0&svalue="+msgSend);
 
-def handleMessage(msgFrom, msgSubj, msgText):
+def handleMessage(msgFrom, msgSubj, msgText, unSeenMode=True):
 	if ("christophe." in msgFrom):
 		orig="Christophe"
 	elif ("cecile." in msgFrom):
@@ -100,10 +101,14 @@ def runHttpServer():
 		string = bytes.decode(data)
 		message = string.split(' ')[1].split('=')[1]
 		print message
-		handleMessage("Shyrka@", message, "")
+		handleMessage("Shyrka@", message, "", True)
 
-def process_mailbox(M):
-    rv, data = M.search(None, "ALL")
+def process_mailbox(M, unSeenMode=True):
+    if (unSeenMode):
+    	rv, data = M.search(None, "UNSEEN")
+    else:
+    	rv, data = M.search(None, "SEEN")
+
     if rv != 'OK':
         print("No messages found!")
         return
@@ -125,8 +130,13 @@ def process_mailbox(M):
 	else:
 		msg_text=msg.get_payload(decode=True);
         print 'Message %s: %s : %s' % (num, msg_subj, msg_text);
-	if (handleMessage(msg_from, msg_subj, msg_text)==1):
+	if (handleMessage(msg_from, msg_subj, msg_text, unSeenMode)==1):
 		M.store(num, '+FLAGS', '\\Deleted');
+		print 'Deleted'
+	else:
+	    if (unSeenMode):
+		M.store(num, '+FLAGS', '\\Seen');
+		print 'Flagged seen'
 
 def runImapClient():
 	M = imaplib.IMAP4(SERVER);
@@ -139,14 +149,15 @@ def runImapClient():
 	while (1==1):
 		rv, data = M.select("INBOX")
 		if rv == 'OK':
-    			print("Processing inbox...\n")
-    			process_mailbox(M)
+    			print("Processing inbox for queued messages ...\n")
+    			process_mailbox(M, False)
+    			print("Processing inbox for unseen messages ...\n")
+    			process_mailbox(M, True)
     			M.expunge();
     			M.close()
 		else:
     			print("ERROR: Unable to open mailbox ", rv)
 
-		open(pidfile, 'w').close();
 		time.sleep(interval);
 
 	M.logout()
@@ -157,7 +168,7 @@ if __name__=='__main__':
 	pidfile = sys.argv[0] + '_' + sys.argv[1] + '.pid'
 	if os.path.isfile( pidfile ):
     		print "Pid file exists"
-    		if (time.time() - os.path.getmtime(pidfile)) < (float(interval) * 3):
+    		if (time.time() - os.path.getmtime(pidfile)) < float(interval):
       			print "Script seems to be still running, exiting"
       			print "If this is not correct, please delete file " + pidfile
       			sys.exit(0)
@@ -174,4 +185,5 @@ if __name__=='__main__':
 	
 	# Cause main prog to wait for threads
 	while True:
+		open(pidfile, 'w').close();
 		time.sleep(interval)
