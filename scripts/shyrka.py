@@ -61,26 +61,14 @@ def handleMessage(msgFrom, msgSubj, msgText, unSeenMode=True):
 	else :
 		orig=msgFrom
 
-	if (msgText.startswith("Dis à")) :
-		# Relay message
-		dest=msgText.split(" ")[2];
-		# Check dest is at home
-		if (("Christophe" in dest and domoticzStatus("392")) or
-                    ("Cécile" in dest and domoticzStatus("393")) or
-		    ("Matthieu" in dest or "Clément" in dest)) :
-			domoticzTalkMessage(orig, dest, " ".join(msgText.split(" ")[4:]))
-    			return 1
-		else :
-			return 0
+	if (domoticzStatus("392")):
+		domoticzTalkMessage(orig, "Christophe", msgSubj+msgText)
+		return 1
+	elif (domoticzStatus("393")):
+		domoticzTalkMessage(orig, "Cécile", msgSubj+msgText)
+		return 1
 	else :
-		if (domoticzStatus("392")):
-			domoticzTalkMessage(orig, "Christophe", msgSubj+msgText)
-			return 1
-		elif (domoticzStatus("393")):
-			domoticzTalkMessage(orig, "Cécile", msgSubj+msgText)
-			return 1
-		else :
-			return 0
+		return 0
 
 def runHttpServer():
   ADDR = (HTTPD_HOST, HTTPD_PORT)
