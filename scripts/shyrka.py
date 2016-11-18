@@ -13,12 +13,11 @@ import urllib2
 import json
 from socket import *
 import thread
-import mic
 
 SERVER= sys.argv[1];
 EMAIL_ACCOUNT = sys.argv[2];
 EMAIL_PASS = sys.argv[3];
-DOMO_HOST = "192.168.1.17"
+DOMO_HOST = "192.168.1.86"
 DOMO_PORT = "5665"
 interval=10;
 HTTPD_HOST = "127.0.0.1"
