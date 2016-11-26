@@ -5,6 +5,7 @@ commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
 
+modeSwitchName='Prise Piscine mode Chauffage'
 consigneAPName='Thermostat Abrit-piscine'
 temp0 = otherdevices_svalues[consigneAPName] + 0
 tempSensorName='Station Meteo'
@@ -14,8 +15,11 @@ minutes = string.sub(s, 15, 16)
 
 ------------------------------------------------------------------------------------
 -- Main program
--- Allumage toutess les heures si gel
+if (otherdevices[modeSwitchName] == 'Off') then
+        return commandArray
+end
 
+-- Allumage toutess les heures si gel
 if (minutes=='15') then
 	print('(Thermostat2) Consigne lue - E:'..temp0)
 	if (otherdevices_temperature[tempSensorName] < temp0) then 

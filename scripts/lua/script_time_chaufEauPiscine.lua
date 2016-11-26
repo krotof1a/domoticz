@@ -5,7 +5,8 @@ commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
 
-chaufSwitchName='Chauffage Piscine'
+modeSwitchName='Prise Piscine mode Chauffage'
+chaufSwitchName='Chauffage Eau Piscine'
 pompChaufSwitchName='Prise Chauffage Piscine'
 tempJ = tonumber(otherdevices_temperature['Temp Jardin'] or 0)
 tempC = tonumber(otherdevices_svalues['Thermostat Air Chauffage Piscine'] or 0)
@@ -18,6 +19,10 @@ minute = string.sub(s, 16, 16)
 
 ------------------------------------------------------------------------------------
 -- Main program
+
+if (otherdevices[modeSwitchName] == 'On') then
+	return commandArray
+end
 
 if (minute=='1' or minute=='6') then
 
