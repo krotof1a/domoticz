@@ -30,6 +30,7 @@ else
 end
 
 radSwitchName='Chaudière'
+rad2SwitchName='Chauffage Entrée'
 confMOnSwitchName='Confort Plus Chaudiere'
 forceOnSwitchName='Marche Forcee Chaudiere'
 forceOffSwitchName='Extinction Forcee Chaudiere'
@@ -59,9 +60,11 @@ print('(Thermostat) Consigne : '..tempC..', Hysteresis : '..hysteresis..', Temp 
 
 if tempX < (tempC-hysteresis) then 
 	commandArray[radSwitchName]='On'
+	commandArray[rad2SwitchName]='Off'
         print('(Thermostat) Chaudière sur On')
 else if tempX > (tempC+hysteresis) then 
 	commandArray[radSwitchName]='Off' 
+	commandArray[rad2SwitchName]='On' 
         print('(Thermostat) Chaudière sur Off')
      end
 end
@@ -71,11 +74,13 @@ end
 
 if otherdevices[forceOnSwitchName] == 'On' then 
 	commandArray[radSwitchName]='On' 
+	commandArray[rad2SwitchName]='Off' 
       	print('(Thermostat) Surcharge marche forcee chaudiere')
 end
 
 if otherdevices[forceOffSwitchName] == 'On' then 
 	commandArray[radSwitchName]='Off' 
+	commandArray[rad2SwitchName]='On' 
       	print('(Thermostat) Surcharge extinction forcee chaudiere')
 end
 
