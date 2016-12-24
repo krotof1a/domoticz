@@ -87,10 +87,10 @@ end
 ------------------------------------------------------------------------------------
 -- Ne pas declencher d'event si le switch est deja dans la bonne position
 
-if (otherdevices[radSwitchName] == commandArray[radSwitchName]) then
-      	commandArray={}
-      	print('(Thermostat) Commande chaudière déjà positionnée. Rien à faire ...')
-end
+--if (otherdevices[radSwitchName] == commandArray[radSwitchName]) then
+--      	commandArray={}
+--      	print('(Thermostat) Commande chaudière déjà positionnée. Rien à faire ...')
+--end
 
 -------------------------------------------------------------------------------
 -- Reset Activateur si besoin

@@ -155,7 +155,7 @@ if __name__=='__main__':
 	pidfile = sys.argv[0] + '_' + sys.argv[1] + '.pid'
 	if os.path.isfile( pidfile ):
     		print "Pid file exists"
-    		if (time.time() - os.path.getmtime(pidfile)) < float(interval):
+    		if (time.time() - os.path.getmtime(pidfile)) < 60*float(interval):
       			print "Script seems to be still running, exiting"
       			print "If this is not correct, please delete file " + pidfile
       			sys.exit(0)
