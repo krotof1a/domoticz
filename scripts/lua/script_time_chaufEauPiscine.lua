@@ -24,7 +24,7 @@ if (otherdevices[modeSwitchName] == 'On') then
 	return commandArray
 end
 
-if (minute=='1' or minute=='6') then
+if (minute=='2' or minute=='7') then
 
    if (otherdevices[chaufSwitchName] == 'On') then
 
@@ -41,7 +41,7 @@ if (minute=='1' or minute=='6') then
 	--end
 	
 	if (otherdevices[pompChaufSwitchName] == commandArray[pompChaufSwitchName]) then
-      	commandArray={}
+      		commandArray={}
 	else if (commandArray[pompChaufSwitchName] == 'On') then
 		print('(ChaufPiscine) Pompe chauffage piscine démarrée.')
 	end

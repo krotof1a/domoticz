@@ -5,10 +5,10 @@ commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
 
-sanitySwitchName='Vérification'
-lux001SwitchName='Eclairage Bureau'
+sanitySwitchName='Watchdog'
+lux001SwitchName='Eclairage Salon'
 lux002SwitchName='Eclairage Salle-à-manger'
-lux003SwitchName='Eclairage Chambre Parents'
+lux003SwitchName='Eclairage Chambre C&C'
 lux004SwitchName='Eclairage Chambre Amis'
 luxStatus='OK'
 
@@ -55,12 +55,12 @@ if (devicechanged[sanitySwitchName] == 'On') then
 	if (luxStatus == 'OK') then
 		print('(SanityCheck) Lumières OK')
 	else
-		commandArray['SendNotification']='Lumière(s) allumée(s) à la maison.'
+		commandArray['SendNotification']='Lumière allumée à la maison.'
 	end
 	if (ouvStatus == 'OK') then
 		print('(SanityCheck) Ouvrants OK')
 	else
-		commandArray['SendNotification']=commandArray['SendNotification']..'Porte(s)/Fenêtre ouverte(s) à la maison.'
+		commandArray['SendNotification']=commandArray['SendNotification']..'Porte ou fenêtre ouverte à la maison.'
 	end
 	if (luxStatus == 'KO' or ouvStatus == 'KO') then
 		return commandArray
