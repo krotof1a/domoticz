@@ -19,7 +19,7 @@ import base64
 domoticzserver="192.168.1.86:5665"
 domoticzusername = ""
 domoticzpassword = ""
-domoticzpasscode = "5665"
+domoticzpasscode = ""
  
 # If enabled. The script will log to the file _.log
 # Logging to file only happens after the check for other instances, before that it only prints to screen.

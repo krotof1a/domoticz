@@ -48,7 +48,7 @@ def domoticzTalkMessage(msgFrom, msgTo, msgText):
     else:
         msgFull = msgTo+". J'ai un message de " + msgFrom + ". Il dit: " + msgText;
     	msgSend = urllib.quote(msgFull);
-    urllib.urlopen("http://"+DOMO_HOST+":"+DOMO_PORT+"/json.htm?type=command&param=udevice&idx=179&nvalue=0&svalue="+msgSend);
+    urllib.urlopen("http://"+DOMO_HOST+":"+DOMO_PORT+"/json.htm?type=command&param=udevice&idx=106&nvalue=0&svalue="+msgSend);
 
 def handleMessage(msgFrom, msgSubj, msgText, unSeenMode=True):
 	if ("christophe." in msgFrom):
@@ -60,10 +60,10 @@ def handleMessage(msgFrom, msgSubj, msgText, unSeenMode=True):
 	else :
 		orig=msgFrom
 
-	if (domoticzStatus("392")):
+	if (domoticzStatus("114")):
 		domoticzTalkMessage(orig, "Christophe", msgSubj+msgText)
 		return 1
-	elif (domoticzStatus("393")):
+	elif (domoticzStatus("115")):
 		domoticzTalkMessage(orig, "Cécile", msgSubj+msgText)
 		return 1
 	else :
