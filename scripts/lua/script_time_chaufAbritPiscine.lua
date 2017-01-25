@@ -14,7 +14,6 @@ radSwitchName='Prise Chauffage Piscine'
 hysteresis = uservariables['Hysteresis_AP'] or 0
 
 s = os.date()
-minutes = string.sub(s, 15, 16)
 minute = string.sub(s, 16, 16)
 
 ------------------------------------------------------------------------------------
