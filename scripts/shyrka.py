@@ -73,23 +73,27 @@ def runHttpServer():
   ADDR = (HTTPD_HOST, HTTPD_PORT)
   serversock = socket(AF_INET, SOCK_STREAM)
   serversock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-  serversock.bind(ADDR)
-  serversock.listen(5)
-  while 1:
-	print 'Waiting for connection...'
-        clientsock, addr = serversock.accept()
-        print '...connected from:', addr
-	data = clientsock.recv(2048)
-        if not data: break
-	else:
-		gen_response="HTTP/1.1 200 OK\n"
-        	clientsock.send(gen_response)
-	        clientsock.close()
-		string = bytes.decode(data)
-		message = string.split(' ')[1].split('=')[1]
-		print message
-		handleMessage("Shyrka@", message, "", True)
-
+  try:
+  	serversock.bind(ADDR)
+  	serversock.listen(5)
+  	while 1:
+		print 'Waiting for connection...'
+        	clientsock, addr = serversock.accept()
+        	print '...connected from:', addr
+		data = clientsock.recv(2048)
+        	if not data: break
+		else:
+			gen_response="HTTP/1.1 200 OK\n"
+        		clientsock.send(gen_response)
+	        	clientsock.close()
+			string = bytes.decode(data)
+			message = string.split(' ')[1].split('=')[1]
+			print message
+			handleMessage("Shyrka@", message, "", True)
+  except Exception, e:
+	time.sleep(interval);
+	t1=thread.start_new_thread(runHttpServer, ())	
+	
 def process_mailbox(M, unSeenMode=True):
     if (unSeenMode):
     	rv, data = M.search(None, "UNSEEN")
