@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>Podcast RPI</title>
+		<script type="text/javascript">
+      		function callDomoticz(delay) {
+				var textToSpeak = encodeURI(document.getElementById("speach").value);
+				var url = "http://192.168.1.86:5665/json.htm?type=command&param=udevice&idx=145&nvalue=0&svalue="+textToSpeak;
+        			var win=window.open(url);
+				win.window.onload=function(){win.window.close();}
+      		}
+    		</script>
+	</head>
+	<body>
+		Enter URL to podcast :
+		<textarea id='speach'></textarea>
+		<input type='button' value='Valid' onclick='callDomoticz();'/>
+	</body>
+</html>
