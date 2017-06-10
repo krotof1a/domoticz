@@ -5,7 +5,7 @@ commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
 
-modeSwitchName='Prise Piscine mode Chauffage'
+modeSwitchName='Prise Piscine mode antigel'
 chaufSwitchName='Chauffage Eau Piscine'
 pompChaufSwitchName='Prise Chauffage Piscine'
 tempJ = tonumber(otherdevices_temperature['Temp Jardin'] or 0)

@@ -5,7 +5,7 @@ commandArray = {}
 ------------------------------------------------------------------------------------
 -- Definition des constantes
 
-modeSwitchName='Prise Piscine mode Chauffage'
+modeSwitchName='Prise Piscine mode antigel'
 consigneAPName='Thermostat Abrit-piscine'
 tempC = otherdevices_svalues[consigneAPName] + 0
 tempSensorName='Temp Abrit-piscine'
