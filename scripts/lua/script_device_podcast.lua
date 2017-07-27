@@ -8,7 +8,7 @@ if (devicechanged['Podcast']) then
 		os.execute('sudo killall mpg321')
 	else
 		print('(Podcast) Lecture de '..speach)
-		os.execute('/home/chip/tools-domo/readPodcast.sh "'..speach..'"&')
+		os.execute('/home/pi/tools-domo/readPodcast.sh "'..speach..'"&')
 	end
 end
 

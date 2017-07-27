@@ -9,7 +9,7 @@ modeSwitchName='Prise Piscine mode antigel'
 consigneAPName='Thermostat Abrit-piscine'
 tempC = otherdevices_svalues[consigneAPName] + 0
 tempSensorName='Temp Abrit-piscine'
-tempA = otherdevices_temperature[tempSensorName] + 0
+tempA = otherdevices_temperature[tempSensorName] + 0 or 0
 radSwitchName='Prise Chauffage Piscine'
 hysteresis = uservariables['Hysteresis_AP'] or 0
 

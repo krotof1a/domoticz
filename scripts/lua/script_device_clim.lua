@@ -34,7 +34,7 @@ for key, value in pairs(devicechanged) do
     print(string.format('Mode: %s, fan: %s, temp: %s, modeCmd: %s', mode, fanSpeed, temperature, modeCmd))
 
     commandArray['UpdateDevice'] = otherdevices_idx['IR data'] .. '|0|' .. modeCmd
-    os.execute('/home/chip/build/433Utils/CHIP_utils/codesend "'..modeCmd..'" 2')
+    os.execute('/home/pi/build/433Utils/RPi_utils/codesend "'..modeCmd..'" 2')
 
   end
 end
