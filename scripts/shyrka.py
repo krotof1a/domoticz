@@ -17,7 +17,7 @@ import thread
 SERVER= sys.argv[1];
 EMAIL_ACCOUNT = sys.argv[2];
 EMAIL_PASS = sys.argv[3];
-DOMO_HOST = "192.168.1.86"
+DOMO_HOST = "192.168.1.20"
 DOMO_PORT = "5665"
 interval=10;
 HTTPD_HOST = "127.0.0.1"
