@@ -10,7 +10,7 @@ end
 end
 
 -- Handle alarm
-if ((devicechanged['Porte Entrée'] == 'Open' or devicechanged['Porte Cuisine'] == 'Open' or devicechanged['Fenêtre Cuisine'] == 'Open')
+if ((devicechanged['Porte Entrée'] == 'Open' or devicechanged['Porte Cuisine'] == 'Open' or devicechanged['Fenêtre Cuisine'] == 'Open' or devicechanged['Trappe Combles'] == 'Open')
     and globalvariables['Security'] == 'Armed Away') then
 	print('(Security) Ouverture acces en mode securisé')
 	os.execute('/home/pi/tools-domo/alarme.sh start &')
