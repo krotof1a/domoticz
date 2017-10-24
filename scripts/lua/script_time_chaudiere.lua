@@ -103,7 +103,6 @@ end
 -- Vérif date dernier update capteur chambre M
 tCurrent = os.time()
 sLastUpdate = otherdevices_lastupdate['Temp Chambre Matthieu']
---print('Last update sonde chambre M: '..sLastUpdate)
 sLUyear = string.sub(sLastUpdate, 1, 4)
 sLUmonth = string.sub(sLastUpdate, 6, 7)
 sLUday = string.sub(sLastUpdate, 9, 10)
@@ -111,11 +110,22 @@ sLUhour = string.sub(sLastUpdate, 12, 13)
 sLUminutes = string.sub(sLastUpdate, 15, 16)
 sLUseconds = string.sub(sLastUpdate, 18, 19)
 tLastUpdate = os.time{year=sLUyear, month=sLUmonth, day=sLUday, hour=sLUhour, min=sLUminutes, sec=sLUseconds}
-sDifference = (os.difftime (tCurrent, tLastUpdate))
-if (sDifference>1200) then
+sLastSynced = otherdevices_lastupdate['Reveil Matthieu (Sync)']
+sLSyear = string.sub(sLastSynced, 1, 4)
+sLSmonth = string.sub(sLastSynced, 6, 7)
+sLSday = string.sub(sLastSynced, 9, 10)
+sLShour = string.sub(sLastSynced, 12, 13)
+sLSminutes = string.sub(sLastSynced, 15, 16)
+sLSseconds = string.sub(sLastSynced, 18, 19)
+tLastSynced = os.time{year=sLSyear, month=sLSmonth, day=sLSday, hour=sLShour, min=sLSminutes, sec=sLSseconds}
+sDifferenceT = (os.difftime (tCurrent, tLastUpdate))
+sDifferenceS = (os.difftime (tCurrent, tLastSynced))
+if (sDifferenceT>15000 and sDifferenceS>600) then
 	-- Reset it
-	os.execute('/home/pi/tools-domo/sendEvent.sh 15')
-	print('(Test) Reset du reveil car temperature manquante pendant plus de 20mn')
+	print('Last update sonde chambre M: '..sLastUpdate)
+	print('Last synced sonde chambre M: '..sLastSynced)
+	--os.execute('/home/pi/tools-domo/sendEvent.sh 15')
+	print('(Test) Reset du reveil car temperature manquante pendant plus d 1h')
 end
 
 return commandArray
