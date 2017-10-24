@@ -40,12 +40,11 @@ def processPioneer():
 			urllib2.urlopen(request)
 			print 'Updated Domoticz volume switch to OFF'
 		if (lastTelnetAnswer[:3] == 'VOL'):
-			value = int(round(int(lastTelnetAnswer[3:6])/1.5))
-			url = "http://"+DOMO_HOST+":"+DOMO_PORT+"/json.htm?type=command&param=udevice&idx="+VOL_IDX+"&svalue="+str(value)
+			value = str(round(int(lastTelnetAnswer[3:6])/1.5))
+			url = "http://"+DOMO_HOST+":"+DOMO_PORT+"/json.htm?type=command&param=udevice&idx="+VOL_IDX+"&svalue="+value
   			request = urllib2.Request(url)
 			urllib2.urlopen(request)
-			print 'Updated Domoticz volume switch to '+str(value)
-
+			print 'Updated Domoticz volume switch to '+value
   except Exception, e:
 	tn.close()
         time.sleep(interval)
