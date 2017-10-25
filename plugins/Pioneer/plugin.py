@@ -31,6 +31,8 @@ class BasePlugin:
 
     SourceOptions = {}
     selectorMap = {}
+    inputDict = {"BD":"25FN","DVD":"04FN","Sat":"06FN","HDMI":"19FN","Game":"49FN","iPod":"17FN","CD":"01FN","BT":"56FN","Net":"26FN","Tuner":"02FN","TV":"05FN"}
+    revInDict = {"FN25":"BD","FN04":"DVD","FN06":"Sat","FN19":"HDMI","FN49":"Game","FN17":"iPod","FN01":"CD","FN56":"BT","FN26":"Net","FN02":"Tuner","FN05":"TV"}
 
     powerOn = False
     mainOn = False
@@ -74,6 +76,7 @@ class BasePlugin:
             Domoticz.Log("Connected successfully to: "+Parameters["Address"]+":"+Parameters["Port"])
             Connection.Send('?P\r')
             Connection.Send('?V\r')
+            Connection.Send('?F\r')
         else:
             self.isConnected = False
             self.powerOn = False
@@ -84,29 +87,33 @@ class BasePlugin:
     def onMessage(self, Connection, Data, Status, Extra):
         strData = Data.decode("utf-8", "ignore")
         strData = strData.strip()
-        action = strData[0:2]
-        detail = strData[2:]
-        if (action == "PW"):        # Power Status
-            if (detail == "R2"):
+        action = strData[0:3]
+        detail = strData[3:]
+        if (action == "PWR"):        # Power Status
+            if (detail == "2"):
                 self.powerOn = False
                 self.mainOn=False
-            elif (detail == "R1"):
+            elif (detail == "1"):
                 self.powerOn = False
                 self.mainOn=False
-            elif (detail == "R0"):
+            elif (detail == "0"):
                 self.powerOn = True
                 self.mainOn=True
             else: Domoticz.Debug("Unknown: Action "+action+", Detail '"+detail+"' ignored.")
-        elif (action == "MU"):      # Overall Mute
-            if (detail == "T0"):         self.mainVolume1 = abs(self.mainVolume1)*-1
-            elif (detail == "T1"):       self.mainVolume1 = abs(self.mainVolume1)
+        elif (action == "MUT"):      # Overall Mute
+            if (detail == "0"):         self.mainVolume1 = abs(self.mainVolume1)*-1
+            elif (detail == "1"):       self.mainVolume1 = abs(self.mainVolume1)
             else: Domoticz.Debug("Unknown: Action "+action+", Detail '"+detail+"' ignored.")
-        elif (action == "VO"):      # Master Volume
-            detail = strData[3:]
+        elif (action == "VOL"):      # Master Volume
             if (detail.isdigit()):
                 compValue = int(round(int(detail[0:3])/1.5))
                 if (abs(self.mainVolume1) != compValue): self.mainVolume1 = compValue
             else: Domoticz.Log("Unknown: Action "+action+", Detail '"+detail+"' ignored.")
+        elif (action[:2] == "FN"):
+            fullCode=action+detail[:1]
+            itemName=self.revInDict[fullCode]
+            for key, value in self.selectorMap.items():
+                if (itemName == value):      self.mainSource = key
         else:
             if (self.ignoreMessages.find(action) < 0):
                 Domoticz.Debug("Unknown message '"+action+"' ignored.")
@@ -122,16 +129,14 @@ class BasePlugin:
             if (action == "On"):
                 self.myConn.Send(Message='PO\r')
                 self.myConn.Send(Message='?V\r')
+                self.myConn.Send(Message='?F\r')
             elif (action == "Off"):
                 self.myConn.Send(Message='PF\r')
-        #elif (Unit == 2):     # Main selector
-        #    if (action == "On"):
-        #        Domoticz.Send(Message='ZMON\r')
-        #    elif (action == "Set"):
-        #        if (self.powerOn == False): Domoticz.Send(Message='PWON\r')
-        #        Domoticz.Send(Message='SI'+self.selectorMap[Level]+'\r', Delay=delay)
-        #    elif (action == "Off"):
-        #        Domoticz.Send(Message='ZMOFF\r', Delay=delay)
+        elif (Unit == 2):     # Main selector
+            if (action == "Set"):
+                if (self.powerOn == False): self.myConn.Send(Message='PO\r')
+                inputCode=self.inputDict[self.selectorMap[Level]]
+                self.myConn.Send(Message=inputCode+'\r')
         elif (Unit == 3):     # Main Volume control
             if (self.powerOn == False): self.myConn.Send(Message='PO\r')
             if (action == "On"):
