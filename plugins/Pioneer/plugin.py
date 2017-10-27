@@ -1,23 +1,14 @@
-# Pioneer AVR
+#         Pioneer AVR
 #
-# Author: Krotof1a
+#         Author: Krotof1a based on dnpwwo/artemgy work for Denon/Marrantz AVR
+#
+#   Mode3 ("Sources") needs to have '|' delimited names of sources that the Denon knows about. 
 #
 """
 <plugin key="Pioneer" name="Pioneer AVR Amplifier" author="krotof1a" version="1.0.0" wikilink="" externallink="">
     <params>
         <param field="Address" label="IP Address" width="200px" required="true" default="192.168.1.3"/>
         <param field="Port" label="Port" width="30px" required="true" default="8102"/>
-        <param field="Mode2" label="Startup Delay" width="50px" required="true">
-            <options>
-                <option label="2" value="2"/>
-                <option label="3" value="3"/>
-                <option label="4" value="4" default="true" />
-                <option label="5" value="5"/>
-                <option label="6" value="6"/>
-                <option label="7" value="7"/>
-                <option label="10" value="10"/>
-            </options>
-        </param>
         <param field="Mode3" label="Sources" width="550px" required="true" default="Off|BD|DVD|Sat|HDMI|Game|iPod|CD|BT|Net|Tuner|TV"/>
     </params>
 </plugin>
@@ -125,7 +116,7 @@ class BasePlugin:
         action, sep, params = Command.partition(' ')
         action = action.capitalize()
         params = params.capitalize()
-        if (Unit == 1):     # Main power switch
+        if (Unit == 1):      # Main power switch
             if (action == "On"):
                 self.myConn.Send(Message='PO\r')
                 self.myConn.Send(Message='?V\r')
@@ -134,14 +125,20 @@ class BasePlugin:
                 self.myConn.Send(Message='PF\r')
         elif (Unit == 2):     # Main selector
             if (action == "Set"):
-                if (self.powerOn == False): self.myConn.Send(Message='PO\r')
+                if (self.powerOn == False): 
+                    self.myConn.Send(Message='PO\r')
+                    self.myConn.Send(Message='?V\r')
                 inputCode=self.inputDict[self.selectorMap[Level]]
                 self.myConn.Send(Message=inputCode+'\r')
         elif (Unit == 3):     # Main Volume control
-            if (self.powerOn == False): self.myConn.Send(Message='PO\r')
+            if (self.powerOn == False): 
+                self.myConn.Send(Message='PO\r')
+                self.myConn.Send(Message='?V\r')
+                self.myConn.Send(Message='?F\r')
             if (action == "On"):
                 self.myConn.Send(Message='MF\r')
             elif (action == "Set"):
+                # Workaround with VD/VU as xxxVL command not working on VSX-824
                 goal = int(round(int(Level)*1.5))
                 currentlevel = int(round(int(self.mainVolume1)*1.5))
                 if currentlevel > goal:
