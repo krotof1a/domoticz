@@ -166,6 +166,9 @@ class BasePlugin:
             if (self.nextConnect <= 0):
                 self.nextConnect = 3
                 self.myConn.Connect()
+        else:
+            # verify connection
+            self.myConn.Send(Message='?P\r')
         return
 
     def SyncDevices(self):
