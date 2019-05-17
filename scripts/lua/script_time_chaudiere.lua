@@ -124,8 +124,8 @@ if (sDifferenceT>15000 and sDifferenceS>600) then
 	-- Reset it
 	print('Last update sonde chambre M: '..sLastUpdate)
 	print('Last synced sonde chambre M: '..sLastSynced)
-	--os.execute('/home/pi/tools-domo/sendEvent.sh 15')
-	print('(Test) Reset du reveil car temperature manquante pendant plus d 1h')
+	os.execute('/home/pi/tools-domo/sendEvent.sh 15')
+	print('(Test) Reset du reveil car temperature manquante pendant plus de 4h')
 end
 
 return commandArray
